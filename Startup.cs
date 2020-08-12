@@ -65,7 +65,8 @@ namespace mail_manager
                 staticRootPath = env.ContentRootPath;
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(staticRootPath, "wwwroot"))
+                FileProvider = new PhysicalFileProvider(Path.Combine(staticRootPath, "wwwroot")),
+                RequestPath = Configuration["pathBase"]
             });
 
             app.UseRouting();
