@@ -1,0 +1,19 @@
+@model mail_manager.Models.Aliases
+
+@{
+    ViewData["Title"] = "Aliases";
+}
+
+<h1>Aliases - Remove:</h1>
+
+<hr>
+
+<div>
+    Source: @Model.SourceName<text>&#64</text>@Model.SourceDomain<br>
+    Destination: @Model.DestinationName<text>&#64</text>@Model.DestinationDomain
+</div>
+<hr>
+<form asp-action="Delete">
+    <button class="btn btn-danger">Delete</button>
+</form>
+

@@ -1,0 +1,96 @@
+@model IEnumerable<mail_manager.Models.Aliases>
+
+@{
+    ViewData["Title"] = "Aliases";
+}
+
+<h1>Aliases</h1>
+
+<div>
+    <h4>List</h4>
+    <hr>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    Source
+                </th>
+                <th>
+                    Target
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Enabled)
+                </th>
+                <th>
+                    Options
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+@foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.SourceName)<text>&#64</text>@Html.DisplayFor(model => item.SourceDomain)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.DestinationName)<text>&#64</text>@Html.DisplayFor(model => item.DestinationDomain)
+                </td>
+                <td>
+                    @* @Html.DisplayFor(model => item.Enabled) *@
+                    @* <input class="check-box" onclick type="checkbox" <%= ModelValue.Value ? "checked='checked'" : "" %> /> *@
+                    <input id="enabled-@(item.Id)" class="check-box" onclick="UpdateEnabled('#enabled-@(item.Id)')" type="checkbox" @(item.Enabled ? "checked=checked" : "")>
+                </td>
+                <td>
+                    <div>
+                        <a asp-action="ConfirmDelete" asp-route-id="@item.Id"><button class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></button></a>
+                    </div>
+                </td>
+            </tr>
+}
+        </tbody>
+    </table>
+    <div>
+        <a asp-action="Create"><button class="btn btn-outline-primary"><i class="fas fa-plus"></i></button></a>
+    </div>
+</div>
+
+@section scripts {
+<script>
+    const updateEnabledQueue = [];
+    function UpdateEnabled(tag) {
+        let element = document.querySelector(tag);
+        element.checked = !element.checked;
+        if (updateEnabledQueue.indexOf(tag) != -1){
+            return;
+        }
+        updateEnabledQueue.push(tag);
+        let formData = new FormData();
+        formData.append('id', parseInt(element.getAttribute("id").split("enabled-")[1]));
+        formData.append('state', !element.checked);
+        fetch('@Url.Action("UpdateEnabled")', {
+            method: 'POST',
+            body: formData,
+        })
+            .then(resp => resp.json())
+            .then(res => {
+                if (!res.success) {
+                    return;
+                }
+                let i = updateEnabledQueue.indexOf(tag);
+                if (i > -1) {
+                    updateEnabledQueue.splice(i, 1);
+                } else {
+                    console.log("Unable to remove because not in queue: " + tag);
+                    return;
+                }
+                element.checked = !element.checked;
+            });
+    }
+</script>
+}

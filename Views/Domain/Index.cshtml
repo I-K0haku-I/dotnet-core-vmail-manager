@@ -1,0 +1,39 @@
+@model IEnumerable<mail_manager.Models.Domains>
+
+@{
+    ViewData["Title"] = "Domains";
+}
+
+<h1>Domains</h1>
+
+<div>
+    <h4>List</h4>
+    <hr>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Domain)
+                </th>
+                <th>
+                    Options
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+@foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Domain)
+                </td>
+            </tr>
+}
+        </tbody>
+    </table>
+</div>

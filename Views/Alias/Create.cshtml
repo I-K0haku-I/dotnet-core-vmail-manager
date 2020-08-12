@@ -1,0 +1,35 @@
+@model mail_manager.Models.Aliases
+
+@{
+    ViewData["Title"] = "Create Aliase";
+}
+
+<h1>Aliases - Create:</h1>
+
+<hr>
+
+<form asp-action="Create" method="post" >
+    <div class="form-group">
+        <label asp-for="SourceName" class="control-label"></label>
+        <input asp-for="SourceName" class="form-control">
+        <span asp-validation-for="SourceName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="SourceDomain" class="control-label"></label>
+        <input asp-for="SourceDomain" class="form-control">
+        <span asp-validation-for="SourceDomain" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DestinationName" class="control-label"></label>
+        <input asp-for="DestinationName" class="form-control">
+        <span asp-validation-for="DestinationName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DestinationDomain" class="control-label"></label>
+        <input asp-for="DestinationDomain" class="form-control">
+        <span asp-validation-for="DestinationDomain" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-success" type="submit"><i class="fas fa-plus"></i></button>
+    </div>
+</form>
