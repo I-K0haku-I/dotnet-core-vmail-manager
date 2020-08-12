@@ -44,8 +44,10 @@ namespace mail_manager
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
+          
+	    String pathBase = Configuration["pathBase"];
+            app.UsePathBase(pathBase);
 
-            app.UsePathBase(Configuration["pathBase"]);
             app.UseAuthentication();
 
             if (env.IsDevelopment())
@@ -59,15 +61,8 @@ namespace mail_manager
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
-            Console.WriteLine(env.ContentRootPath);
-            String staticRootPath = Configuration["staticRootPath"];
-            if (staticRootPath == "")
-                staticRootPath = env.ContentRootPath;
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(staticRootPath, "wwwroot")),
-                RequestPath = Configuration["pathBase"]
-            });
+
+	    app.UseStaticFiles();
 
             app.UseRouting();
 
